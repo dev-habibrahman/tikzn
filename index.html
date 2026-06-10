@@ -2057,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', function () {
             navLinks.classList.toggle('active');
         });
         
-        
+        // ক্লোজ করার জন্য স্ক্রিনে ক্লিক করলে মেনু বন্ধ হবে
         document.addEventListener('click', function () {
             navLinks.classList.remove('active');
         });
@@ -2073,11 +2073,12 @@ document.addEventListener('DOMContentLoaded', function () {
             langDropdown.classList.toggle('show');
         });
 
+        // ড্রপডাউন বাইরে ক্লিক করলে স্বয়ংক্রিয়ভাবে বন্ধ হওয়ার লজিক
         document.addEventListener('click', function () {
             langDropdown.classList.remove('show');
         });
 
-       
+        // ড্রপডাউনে ক্লিক করলে মেনু ক্লোজ হওয়া এবং ভ্যালু আপডেট (অপশনাল উইজেট এক্সপেরিয়েন্স)
         const items = langDropdown.querySelectorAll('li a');
         items.forEach(item => {
             item.addEventListener('click', function(e) {
@@ -2098,14 +2099,14 @@ document.addEventListener('DOMContentLoaded', function () {
         searchBtn.addEventListener('click', function () {
             searchOverlay.classList.add('active');
             const input = searchOverlay.querySelector('input');
-            if(input) input.focus(); 
+            if(input) input.focus(); // অটোমেটিক কার্সার ফোকাস
         });
 
         closeSearch.addEventListener('click', function () {
             searchOverlay.classList.remove('active');
         });
 
-        
+        // 'Esc' কি চাপলে সার্চ ওভারলে ক্লোজ হবে
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 searchOverlay.classList.remove('active');
@@ -2121,7 +2122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const handleSliderFeedback = (direction, section) => {
         console.log(`${section} Slider navigating: ${direction}`);
-       
+        // এখানে আপনার ব্যাকএন্ড ডাটা স্লাইডার প্লাগইন (যেমন: Swiper/Slick) এর কোড ইন্টিগ্রেট করতে পারবেন।
     };
 
     if(prevBtn) prevBtn.addEventListener('click', () => handleSliderFeedback('previous', 'Priority'));
