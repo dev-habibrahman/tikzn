@@ -24,6 +24,12 @@
     box-sizing: border-box;
 }
 
+/* স্মুথ স্ক্রলিং এবং সেকশন অফসেট ফিক্স */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 120px; /* ফিক্সড মেনুর জন্য স্ক্রল অফসেট */
+}
+
 :root {
     --primary: #e58a33;
     --orange: #e78332;
@@ -97,7 +103,7 @@ body {
     background: #555250;
     border-radius: 90px;
     box-shadow: 0 20px 40px rgba(0,0,0,.25);
-    z-index: 5;
+    z-index: 105; /* স্টিকি বা ওভারলে সুরক্ষার জন্য */
     padding: 0;
 }
 
@@ -172,8 +178,14 @@ body {
     color: white;
     text-decoration: none;
     font-size: 15px;
+    transition: all 0.3s ease;
 }
 
+.nav-links a:hover {
+    opacity: 0.8;
+}
+
+/* অ্যাক্টিভ ক্লাস স্টাইলিং */
 .nav-links .active {
     font-weight: 600;
     border-bottom: 3px solid white;
@@ -226,7 +238,7 @@ body {
     width: 120px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: none;
-    z-index: 100;
+    z-index: 110;
 }
 
 .lang-dropdown.show {
@@ -555,6 +567,7 @@ body {
     width: 100%;
     display: block;
     height: 700px;
+    object-fit: cover;
 }
 
 .small-image {
@@ -1630,7 +1643,7 @@ body {
 </head>
 <body>
 
-<section class="hero">
+<section class="hero" id="home">
 
     <div class="left-accent"></div>
 
@@ -1658,12 +1671,12 @@ body {
                 <img src="https://i.ibb.co.com/HTLdztQG/logo-img.png" alt="Logo">
             </div>
             <ul class="nav-links" id="navLinks">
-                <li><a class="active" href="#">Home</a></li>
-                <li><a href="#">Invest In KZN</a></li>
-                <li><a href="#">Key Opportunities</a></li>
-                <li><a href="#">OSS Services</a></li>
-                <li><a href="#">Special Economic Zones</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a class="active" href="#home">Home</a></li>
+                <li><a href="#sectors">Invest In KZN</a></li>
+                <li><a href="#priorities">Key Opportunities</a></li>
+                <li><a href="#oss-services">OSS Services</a></li>
+                <li><a href="#campaign">Special Economic Zones</a></li>
+                <li><a href="#contact">Contact Us</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="search-btn" id="searchBtn">
@@ -1703,7 +1716,7 @@ body {
                 <span class="custom-underline">GATEWAY</span>
             </h1> <br>
             <h2>ONE STOP SHOP</h2>
-            <a href="#" class="hero-btn">KWAZULU NATAL</a>
+            <a href="#sectors" class="hero-btn">KWAZULU NATAL</a>
         </div>
         <div class="hero-image">
             <img src="https://i.ibb.co.com/bR6bKtMP/hero-img.png" alt="Hero">
@@ -1719,7 +1732,7 @@ body {
     </div>
 </div>
 
-<section class="sectors-wrapper">
+<section class="sectors-wrapper" id="sectors">
     <div class="sectors-bg"></div>
     <div class="sectors-card">
         <div class="sectors-inner">
@@ -1763,7 +1776,7 @@ body {
     </div>
 </section>
 
-<section class="about-section">
+<section class="about-section" id="oss-services">
     <div class="top-label">ONE STOP SHOP</div>
     <h1 class="section-title">What Our Priorities</h1>
 
@@ -1793,7 +1806,7 @@ body {
     <div class="bottom-band"></div>
 </section>
 
-<section class="priority-section">
+<section class="priority-section" id="priorities">
     <div class="priority-container">
         <div class="priority-cards">
 
@@ -1887,7 +1900,7 @@ body {
     </div>
 </section>
 
-<section class="campaign-section">
+<section class="campaign-section" id="campaign">
 
     <div class="campaign-header">
         <div>
@@ -2007,7 +2020,7 @@ body {
     </div>
 </section>
 
-<footer class="main-footer">
+<footer class="main-footer" id="contact">
     <div class="footer-container">
         <div class="footer-col logo-col">
             <div class="brand-logo">
@@ -2047,21 +2060,38 @@ body {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     
-    // 1. Mobile Menu Toggle
+    // 1. Mobile Menu Toggle & Single Page Navigation
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
+    const links = navLinks.querySelectorAll('a');
 
     if (menuToggle && navLinks) {
+        // বার আইকনে ক্লিক করলে মোবাইল মেনু অন/অফ হবে
         menuToggle.addEventListener('click', function (e) {
             e.stopPropagation();
             navLinks.classList.toggle('active');
         });
         
-        // ক্লোজ করার জন্য স্ক্রিনে ক্লিক করলে মেনু বন্ধ হবে
+        // স্ক্রিনের অন্য কোথাও ক্লিক করলে মোবাইল মেনু বন্ধ হয়ে যাবে
         document.addEventListener('click', function () {
             navLinks.classList.remove('active');
         });
     }
+
+    // ল্যান্ডিং পেজের কোনো লিংকে ক্লিক করলে অ্যাক্টিভ ক্লাস পরিবর্তন এবং মোবাইল মেনু অটো বন্ধ করার লজিক
+    links.forEach(link => {
+        link.addEventListener('click', function() {
+            // পূর্বের অ্যাক্টিভ ক্লাস রিমুভ করা
+            links.forEach(l => l.classList.remove('active'));
+            // নতুন ক্লিকে অ্যাক্টিভ ক্লাস অ্যাড করা
+            this.classList.add('active');
+
+            // মোবাইল ভিউতে লিংকে ক্লিক করলে ড্রপডাউনটি বন্ধ হয়ে যাবে
+            if (navLinks) {
+                navLinks.classList.remove('active');
+            }
+        });
+    });
 
     // 2. Language Dropdown Toggle
     const langBtn = document.getElementById('langBtn');
@@ -2073,12 +2103,10 @@ document.addEventListener('DOMContentLoaded', function () {
             langDropdown.classList.toggle('show');
         });
 
-        // ড্রপডাউন বাইরে ক্লিক করলে স্বয়ংক্রিয়ভাবে বন্ধ হওয়ার লজিক
         document.addEventListener('click', function () {
             langDropdown.classList.remove('show');
         });
 
-        // ড্রপডাউনে ক্লিক করলে মেনু ক্লোজ হওয়া এবং ভ্যালু আপডেট (অপশনাল উইজেট এক্সপেরিয়েন্স)
         const items = langDropdown.querySelectorAll('li a');
         items.forEach(item => {
             item.addEventListener('click', function(e) {
@@ -2099,14 +2127,13 @@ document.addEventListener('DOMContentLoaded', function () {
         searchBtn.addEventListener('click', function () {
             searchOverlay.classList.add('active');
             const input = searchOverlay.querySelector('input');
-            if(input) input.focus(); // অটোমেটিক কার্সার ফোকাস
+            if(input) input.focus();
         });
 
         closeSearch.addEventListener('click', function () {
             searchOverlay.classList.remove('active');
         });
 
-        // 'Esc' কি চাপলে সার্চ ওভারলে ক্লোজ হবে
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 searchOverlay.classList.remove('active');
@@ -2114,7 +2141,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 4. Slider Navigations (Priority & Campaign Section Action Hooks)
+    // 4. Slider Navigations Action Hooks
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const evPrev = document.getElementById('evPrev');
@@ -2122,7 +2149,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const handleSliderFeedback = (direction, section) => {
         console.log(`${section} Slider navigating: ${direction}`);
-        // এখানে আপনার ব্যাকএন্ড ডাটা স্লাইডার প্লাগইন (যেমন: Swiper/Slick) এর কোড ইন্টিগ্রেট করতে পারবেন।
     };
 
     if(prevBtn) prevBtn.addEventListener('click', () => handleSliderFeedback('previous', 'Priority'));
